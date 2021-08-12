@@ -13,7 +13,7 @@ class MultiPage:
 
     def run(self):
         page = st.sidebar.radio(
-            'PAGE',
+            'CONTENTS',
             list(self._pages.keys())
         )
         self._pages[page]()

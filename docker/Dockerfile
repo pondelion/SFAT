@@ -11,11 +11,17 @@ ENV TZ JST-9
 
 RUN pip install --upgrade pip
 RUN pip install --upgrade setuptools
+RUN pip install poetry
 
-COPY requirements.txt .
+COPY pyproject.toml poetry.lock ./
+
+# COPY requirements.txt .
+RUN poetry export -f requirements.txt > requirements.txt
 RUN pip install -r requirements.txt
-COPY sfat/ /sfat/
 
-WORKDIR sfat
+COPY sfat/ ./sfat/
+COPY app.py app.py ./
+
+# WORKDIR sfat
 EXPOSE 8501
 CMD ["streamlit", "run", "app.py"]
