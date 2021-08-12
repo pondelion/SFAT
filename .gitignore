@@ -1,1 +1,4 @@
 __pycache__
+sfat/config/*.yml
+log/*
+.envrc
