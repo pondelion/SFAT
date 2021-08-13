@@ -7,6 +7,7 @@ from sfat.pages import (
     economic_indicator,
     stockprice,
     company_announcement,
+    company_financial,
 )
 
 
@@ -20,7 +21,7 @@ def main():
     multi_page.add_page('Company Profile', company_profile)
     multi_page.add_page('Company Announcement', company_announcement)
     multi_page.add_page('Stockprice', stockprice)
-    multi_page.add_page('Financial Comparison', tmp_page)
+    multi_page.add_page('Financial Comparison', company_financial)
     multi_page.add_page('Cluster Analysis', tmp_page)
     multi_page.add_page('Economic Indicator', economic_indicator)
     multi_page.add_page('News Analysys', tmp_page)

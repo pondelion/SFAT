@@ -83,6 +83,34 @@ def cached_sampled_closes(n: int):
     return df_merged
 
 
+def sampled_closes(n: int):
+    df_stocklist = cached_stocklist()
+    codes = list(df_stocklist.sample(n)['銘柄コード'].unique())
+
+    df_dict = {}
+    skipped_code = []
+
+    for code in pb(codes):
+        try:
+            # df_dict[code] = cached_stockprice(code=code)[['Close']]
+            df_dict[code] = StockPrice(code=code).df()[['Close']]
+        except Exception as e:
+            print(e)
+            skipped_code.append(code)
+
+    df_merged = None
+
+    for code, df in pb(df_dict.items()):
+        if df_merged is None:
+            df_merged = df.rename(columns={'Close': code})
+        else:
+            df_merged = pd.merge(
+                df_merged, df.rename(columns={'Close': code}),
+                how='outer', left_index=True, right_index=True
+            )
+    return df_merged
+
+
 @st.cache
 def cached_financial_data():
     df_company_financials = CompanyFinancials().df()

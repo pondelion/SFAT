@@ -88,7 +88,7 @@ def company_profile():
         df_target['Close'].pct_change().shift(int(corr_lag))
     )
     corr = pd.DataFrame(
-        [df_target['Volume'].pct_change(), df_target['Close'].pct_change().shift(int(corr_lag))]
+        [df_target['Volume'].pct_change(), df_target['Close'].pct_change().shift(-int(corr_lag))]
     ).T.corr().iloc[0,1]
     plt.title(f'lag_{int(corr_lag)}, corr : {corr:.3f}')
     plt.xlabel('Volume Change')

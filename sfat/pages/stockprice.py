@@ -12,6 +12,7 @@ from ..st_cached_data import (
     cached_stocklist,
     cached_stockprice,
     cached_sampled_closes,
+    sampled_closes,
 )
 from ..widgets import (
     stock_selection_widget,
@@ -76,14 +77,24 @@ def stockprice():
     )
     df_target_stockprice = cached_stockprice(code=code)
 
-    n_sampling = 50
+    n_sampling = 100
 
     df_sampled_closes = cached_sampled_closes(n=n_sampling)
+    # df_sampled_closes = sampled_closes(n=n_sampling)
     st.write(f'Using {len(df_sampled_closes.columns)} random sampled stockprices for correlation calculation.')
     st.dataframe(df_sampled_closes.tail(100))
 
+    selected_corr_lag = st.selectbox(
+        'Select Time Lag (day) for Correlation Calculation',
+        [f'{day}day' for day in range(0, 30)]
+    )
+    corr_lag = int(selected_corr_lag.replace('day', ''))
+    if corr_lag != 0:
+        st.warning(f'{company_name}の{corr_lag}日後の終値変動に対して相関の計算を行います。')
+
     df_closes = pd.merge(
-        df_target_stockprice[['Close']].rename(columns={'Close': code}), df_sampled_closes,
+        df_target_stockprice[['Close']].rename(columns={'Close': code}).shift(-corr_lag),
+        df_sampled_closes,
         how='outer', left_index=True, right_index=True
     )
 
@@ -102,20 +113,27 @@ def stockprice():
         (df_closes.index.date >= min_dt) & (df_closes.index.date <= max_dt)
     ]
 
-    st.subheader('Correleation Coefficient Heatmap')
+    n_show = 15
+    st.subheader(f'Top {n_show} High Correleation Coefficient Heatmap')
     fig = plt.figure(figsize=(8, 8))
     df_corr = df_target_closes.corr(min_periods=30)
-    sns.heatmap(df_corr, annot=True)
+    df_corr_ranking = df_corr[code].sort_values(ascending=False)
+    df_abs_corr_ranking = df_corr[code].abs().sort_values(ascending=False)
+    df_high_corr = df_corr.loc[
+        df_abs_corr_ranking[:n_show].index,
+        df_abs_corr_ranking[:n_show].index.tolist()
+    ]
+    sns.heatmap(df_high_corr, annot=True)
     cols = st.columns([1, 6, 1])
     cols[1].pyplot(fig)
 
-    st.subheader('Correleation Coefficient Ranking')
+    st.subheader(f'Top {n_show} Correleation Coefficient Against {company_name} Ranking')
     fig = plt.figure(figsize=(8, 5))
-    df_corr_ranking = df_corr[code].sort_values(ascending=False)
-    df_corr_ranking[1:][::-1].plot.barh()
+
+    df_corr_ranking.loc[df_abs_corr_ranking[1:n_show+1].index][::-1].plot.barh()
     plt.yticks(
-        range(len(df_corr_ranking)-1),
-        [f'{code}/{code2company_name(code)}' for code in df_corr_ranking[1:][::-1].index.tolist()]
+        range(n_show),
+        [f'{code}/{code2company_name(code)}' for code in df_abs_corr_ranking[1:n_show+1][::-1].index.tolist()]
     )
     plt.xlabel('Correlation Coefficient')
     cols = st.columns([1, 12, 1])
@@ -125,11 +143,17 @@ def stockprice():
     selected_companies = st.multiselect(
         'Plot Target Company',
         [f'{code}/{code2company_name(code)}' for code in df_corr.index.tolist()],
-        [f'{code}/{code2company_name(code)}' for code in df_corr_ranking[:2].index.tolist()]
+        [f'{code}/{code2company_name(code)}' for code in df_corr_ranking[:3].index.tolist()]
     )
     selected_codes = [int(sc.split('/')[0]) for sc in selected_companies]
+    normalize = st.checkbox('Normalize')
+    if corr_lag != 0:
+        st.warning(f'※ {code}/{company_name}は{corr_lag}日先の終値の変動になっています。')
     fig = plt.figure(figsize=(12, 5))
-    df_target_closes[selected_codes].plot()
+    if normalize:
+        (df_target_closes[selected_codes] / df_target_closes[selected_codes].max()).plot()
+    else:
+        df_target_closes[selected_codes].plot()
     cols = st.columns([1, 10, 1])
     cols[1].pyplot(plt)
 
