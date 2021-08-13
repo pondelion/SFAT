@@ -1,15 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-from ..config import DataLocationConfig
-from ..datasets import StockList
-
-
-@st.cache
-def cached_stocklist():
-    stocklist = StockList()
-    df_stocklist = stocklist.df()
-    return df_stocklist
+from ..st_cached_data import cached_stocklist
 
 
 def company_list():
