@@ -5,3 +5,4 @@ from .company_financials import (
     CompanyFinancials,
     CompanyFinancialsYFinance,
 )
+from .company_announcement import CompanyAnnouncement

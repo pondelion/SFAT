@@ -9,6 +9,7 @@ from ..datasets import (
     StockPrice,
     CompanyFinancials,
     CompanyFinancialsYFinance,
+    CompanyAnnouncement,
 )
 
 
@@ -125,3 +126,10 @@ def cached_financial_yfinance_data(code: int):
     df_financial.set_index('Date', inplace=True)
     df_financial.sort_index(inplace=True)
     return df_financial
+
+
+@st.cache
+def cached_company_announcement(code: int):
+    ca = CompanyAnnouncement(code=code)
+    ca_data = ca.json()
+    return ca_data

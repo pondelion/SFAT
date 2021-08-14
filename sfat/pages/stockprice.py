@@ -1,7 +1,9 @@
 from datetime import timedelta
+from typing import List, Tuple
 
 import streamlit as st
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 import japanize_matplotlib
 import seaborn as sns
@@ -44,7 +46,13 @@ def company_name2sector(company_name):
     return df_stocklist[df_stocklist['銘柄名']==company_name]['業種分類'].values[0]
 
 
-def draw_corr_network(node_names, corr, corr_thresh, fig_size=(12, 12)):
+def draw_corr_network(
+    node_names: List[str],
+    corr: np.ndarray,
+    corr_thresh: float,
+    fig_size: Tuple[int, int]=(12, 12),
+    target_index: int = None,
+):
     graph = nx.Graph()
     graph.add_nodes_from(node_names)
     weighted_edges = []
@@ -53,6 +61,8 @@ def draw_corr_network(node_names, corr, corr_thresh, fig_size=(12, 12)):
     for i in range(corr.shape[0]):
         for j in range(corr.shape[1]):
             if i == j:
+                continue
+            if target_index is not None and i != target_index and j != target_index:
                 continue
             if abs(corr[i, j]) >= corr_thresh:
                 graph.add_edge(node_names[i], node_names[j], weight=abs(corr[i, j]), color='red')

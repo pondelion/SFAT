@@ -27,7 +27,7 @@ class S3CachedData(metaclass=ABCMeta):
         # If cache file already exists, use it.
         if os.path.exists(local_cache_path) and not force_update:
             Logger.i(S3CachedData.TAG, f'Local cache file {local_cache_path} found, using cached file.')
-            S3CachedData._cache[local_cache_path] = pd.read_csv(local_cache_path)
+            S3CachedData._cache[local_cache_path] = self._load_local_file(local_cache_path)
             return S3CachedData._cache[local_cache_path]
 
         # Download csv file from S3.
