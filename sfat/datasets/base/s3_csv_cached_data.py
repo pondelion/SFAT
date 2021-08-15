@@ -13,4 +13,4 @@ class S3CSVCachedData(S3CachedData, metaclass=ABCMeta):
 
     @overrides
     def _load_local_file(self, local_cache_filepath: str):
-        raise pd.read_csv(local_cache_filepath)
+        return pd.read_csv(local_cache_filepath)

@@ -1,0 +1,10 @@
+REGION_NAME: ap-northeast-1
+S3_BUCKET_NAME: fin-app
+DYNAMODB_TWITTER_TABLE_NAME: finapp_twitter_tweet
+# DYNAMODB_TWITTER_USER_TWEET_TABLE_NAME: finapp_twitter_tweet_user
+DYNAMODB_TWITTER_USER_TWEET_TABLE_NAME: iapp_twitter_tweet_user
+DYNAMODB_TWITTER_TREND_TABLE_NAME: finapp_twitter_trend
+DYNAMODB_GOOGLE_RSS_NEWS_TABLE_NAME: finapp_google_rss_news
+DYNAMODB_TWITTER_TEST_TABLE_NAME: twitter_test1
+DYNAMODB_COMPANY_ANNOUNCEMENT_TABLE_NAME: finapp_company_announcements
+DYNAMODB_GOOGLE_TREND_NAME: finapp_google_trend

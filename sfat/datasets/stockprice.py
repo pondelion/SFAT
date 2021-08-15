@@ -46,6 +46,7 @@ class StockPrice(S3CSVCachedData):
         local_cache_path = os.path.join(
             DataLocationConfig.LOCAL_CACHE_DIR,
             'stock',
+            'stooq',
             f'{self._code}.csv'
         )
         return local_cache_path
