@@ -131,5 +131,6 @@ def cached_financial_yfinance_data(code: int):
 @st.cache
 def cached_company_announcement(code: int):
     ca = CompanyAnnouncement(code=code)
-    ca_data = ca.json()
+    # ca_data = ca.json()
+    ca_data = ca.df()
     return ca_data

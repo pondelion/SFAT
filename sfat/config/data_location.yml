@@ -1,0 +1,19 @@
+STOCKLIST_FILE: s3://fin-app/stocklist/stocklist.csv
+STOCKPRICE_BASEDIR: s3://fin-app/stockprice
+STOCKPRICE_CONCAT_BASEDIR: s3://fin-app/stockprice_concat
+STOCKPRICE_STOOQ_CONCAT_BASEDIR: s3://fin-app/stockprice_concat/stooq
+STOCKPRICE_YFINANCE_CONCAT_BASEDIR: s3://fin-app/stockprice_concat/yfinance
+STOCKPRICE_YFINANCE_DAILY_BASEDIR: s3://fin-app/stockprice_daily/yfinance
+STOCKPRICE_CANDLECHART_BASEDIR: s3://fin-app/stockprice_candlechart
+FINANCIALS_YFINANCE_BASEDIR: s3://fin-app/company_financials/yfinance/financials
+BALANCE_SHEET_YFINANCE_BASEDIR: s3://fin-app/company_financials/yfinance/balance_sheet
+CASHFLOW_YFINANCE_BASEDIR: s3://fin-app/company_financials/yfinance/cashflow
+ECONOMIC_INDICATOR_BASEDIR: s3://fin-app/economic_indicator
+COMPANY_FINANCIAL_DATA: s3://fin-app/company_data/company_financial_data.csv
+COMPANY_FINANCIAL_YFINANCE_BASEDIR: s3://fin-app/company_financials/yfinance/financials
+# TWITTER_MEDIAFILE_DIR: s3://fin-app/twitter/media
+TWITTER_MEDIAFILE_DIR: s3://i-app/twitter/media
+EDINET_SECURITIES_REPORT_DOCINFO_DIR: s3://fin-app/securities_report/edinet/docinfo
+EDINET_SECURITIES_REPORT_PDF_DIR: s3://fin-app/securities_report/edinet/pdf
+COMPANY_ANNOUNCEMENT_PDF_DIR: s3://fin-app/company_announcement/pdf
+LOCAL_CACHE_DIR: /var/tmp

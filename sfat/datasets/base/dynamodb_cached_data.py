@@ -33,9 +33,13 @@ class DynamoDBCachedData(metaclass=ABCMeta):
 
         # Fetch data from DynamoDB and save to local storage as a file.
         json_data = self._fetch_from_dynamodb()
+        Logger.i(DynamoDBCachedData.TAG, f'Fetching data from DynamoDB to {local_cache_path}')
         self._save_local_file(json_data, local_cache_path)
         DynamoDBCachedData._cache[local_cache_path] = json_data
         return DynamoDBCachedData._cache[local_cache_path]
+
+    def df(self, force_update: bool = False) -> pd.DataFrame:
+        raise NotImplementedError
 
     @abstractmethod
     def _local_cache_path(self) -> str:

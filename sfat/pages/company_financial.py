@@ -45,3 +45,14 @@ def company_financial():
     plt.xticks(rotation=45)
     cols = st.columns([1, 20, 1])
     cols[1].pyplot(plt)
+
+    st.subheader(f'Item Pairplot')
+    selected_items = st.multiselect(
+        'Select Items',
+        df_latest.columns.tolist(),
+        ['従業員数', '自己資本比率', '売上高', '株価収益率', '平均年齢']
+    )
+    plt.figure(figsize=(10, 10))
+    sns.pairplot(df_latest[selected_items + ['業種']], hue='業種')
+    cols = st.columns([1, 40, 1])
+    cols[1].pyplot(plt)
