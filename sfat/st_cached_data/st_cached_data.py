@@ -1,3 +1,4 @@
+from datetime import date
 from typing import List
 
 import streamlit as st
@@ -10,6 +11,7 @@ from ..datasets import (
     CompanyFinancials,
     CompanyFinancialsYFinance,
     CompanyAnnouncement,
+    GoogleNews,
 )
 
 
@@ -134,3 +136,10 @@ def cached_company_announcement(code: int):
     # ca_data = ca.json()
     ca_data = ca.df()
     return ca_data
+
+
+@st.cache
+def cached_google_news(pub_date: date):
+    gn = GoogleNews(publised_date=pub_date)
+    df_gn = gn.df()
+    return df_gn

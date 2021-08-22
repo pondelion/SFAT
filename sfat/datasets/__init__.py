@@ -6,3 +6,4 @@ from .company_financials import (
     CompanyFinancialsYFinance,
 )
 from .company_announcement import CompanyAnnouncement
+from .google_news import GoogleNews

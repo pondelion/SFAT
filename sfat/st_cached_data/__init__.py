@@ -7,4 +7,5 @@ from .st_cached_data import (
     cached_financial_yfinance_data,
     sampled_closes,
     cached_company_announcement,
+    cached_google_news,
 )
